@@ -1,5 +1,7 @@
 # Observability
 
+[![syntasso](https://circleci.com/gh/syntasso/promise-observability.svg?style=shield)](https://app.circleci.com/pipelines/github/syntasso/promise-observability?branch=main)
+
 This Promise provides Observability-as-a-Service by deploying [kube-prometheus](https://github.com/prometheus-operator/kube-prometheus). The Promise has 2 field `.spec.namespace`,
 which is the namespace the [Grafana](https://github.com/grafana/grafana) and [Prometheus](https://github.com/prometheus/prometheus) installation and `.spec.env` which can be `dev` or `prod`.
 
