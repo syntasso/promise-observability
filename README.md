@@ -4,12 +4,14 @@ This Promise provides Observability-as-a-Service by deploying [kube-prometheus](
 which is the namespace the [Grafana](https://github.com/grafana/grafana) and [Prometheus](https://github.com/prometheus/prometheus) installation and `.spec.env` which can be `dev` or `prod`.
 
 To install, run the following command while targeting your Platform cluster:
+
 ```
 kubectl create -f https://raw.githubusercontent.com/syntasso/promise-observability/main/promise.yaml
 ```
 
 This will install the Prometheus Operator into the clusters. To verify it is installed,
 run the following command while targeting a worker cluster:
+
 ```
 kubectl get deployment prometheus-operator
 NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
@@ -18,6 +20,7 @@ prometheus-operator   1/1     1            1           4h30m
 
 To get an instance of Grafana and Prometheus make a resource request (dev by default), run the
 following command while targeting your Platform cluster:
+
 ```
 kubectl apply -f https://raw.githubusercontent.com/syntasso/promise-observability/main/resource-request.yaml
 ```
@@ -48,3 +51,7 @@ Then access via [http://localhost:3000](http://localhost:3000) and use the defau
 ## Development
 
 For development see [README.md](./internal/README.md)
+
+## Questions? Feedback?
+
+We are always looking for ways to improve Kratix and the Marketplace. If you run into issues or have ideas for us, please let us know. Feel free to [open an issue](https://github.com/syntasso/kratix-marketplace/issues/new/choose) or [put time on our calendar](https://www.syntasso.io/contact-us). We'd love to hear from you.
