@@ -27,7 +27,7 @@ following command while targeting your Platform cluster:
 kubectl apply -f https://raw.githubusercontent.com/syntasso/promise-observability/main/resource-request.yaml
 ```
 
-This will create an instance of Promethues and Grafana on the targeted worker cluster.
+This will create an instance of Promethues and Grafana on the targeted worker cluster. This may take a few minutes. 
 
 ## Accessing UI
 
