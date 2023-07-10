@@ -5,7 +5,38 @@ metadata:
   name: observability
   namespace: default
 spec:
-  workerClusterResources:
+  api:
+    apiVersion: apiextensions.k8s.io/v1
+    kind: CustomResourceDefinition
+    metadata:
+      name: observabilities.marketplace.kratix.io
+    spec:
+      group: marketplace.kratix.io
+      names:
+        kind: observability
+        plural: observabilities
+        singular: observability
+      scope: Namespaced
+      versions:
+      - name: v1alpha1
+        schema:
+          openAPIV3Schema:
+            properties:
+              spec:
+                properties:
+                  env:
+                    default: dev
+                    pattern: ^(dev|prod)$
+                    type: string
+                  namespace:
+                    type: string
+                required:
+                - namespace
+                type: object
+            type: object
+        served: true
+        storage: true
+  dependencies:
   - apiVersion: apiextensions.k8s.io/v1
     kind: CustomResourceDefinition
     metadata:
@@ -13,6 +44,7 @@ spec:
         controller-gen.kubebuilder.io/version: v0.8.0
       creationTimestamp: null
       name: alertmanagerconfigs.monitoring.coreos.com
+      namespace: default
     spec:
       group: monitoring.coreos.com
       names:
@@ -4502,6 +4534,7 @@ spec:
         controller-gen.kubebuilder.io/version: v0.8.0
       creationTimestamp: null
       name: alertmanagers.monitoring.coreos.com
+      namespace: default
     spec:
       group: monitoring.coreos.com
       names:
@@ -10805,6 +10838,7 @@ spec:
         controller-gen.kubebuilder.io/version: v0.8.0
       creationTimestamp: null
       name: podmonitors.monitoring.coreos.com
+      namespace: default
     spec:
       group: monitoring.coreos.com
       names:
@@ -11454,6 +11488,7 @@ spec:
         controller-gen.kubebuilder.io/version: v0.8.0
       creationTimestamp: null
       name: probes.monitoring.coreos.com
+      namespace: default
     spec:
       group: monitoring.coreos.com
       names:
@@ -12139,6 +12174,7 @@ spec:
         controller-gen.kubebuilder.io/version: v0.8.0
       creationTimestamp: null
       name: prometheuses.monitoring.coreos.com
+      namespace: default
     spec:
       group: monitoring.coreos.com
       names:
@@ -20934,6 +20970,7 @@ spec:
         controller-gen.kubebuilder.io/version: v0.8.0
       creationTimestamp: null
       name: prometheusrules.monitoring.coreos.com
+      namespace: default
     spec:
       group: monitoring.coreos.com
       names:
@@ -21039,6 +21076,7 @@ spec:
         controller-gen.kubebuilder.io/version: v0.8.0
       creationTimestamp: null
       name: servicemonitors.monitoring.coreos.com
+      namespace: default
     spec:
       group: monitoring.coreos.com
       names:
@@ -21706,6 +21744,7 @@ spec:
         controller-gen.kubebuilder.io/version: v0.8.0
       creationTimestamp: null
       name: thanosrulers.monitoring.coreos.com
+      namespace: default
     spec:
       group: monitoring.coreos.com
       names:
@@ -28213,6 +28252,7 @@ spec:
     kind: ClusterRole
     metadata:
       name: blackbox-exporter
+      namespace: default
     rules:
     - apiGroups:
       - authentication.k8s.io
@@ -28235,6 +28275,7 @@ spec:
         app.kubernetes.io/part-of: kube-prometheus
         app.kubernetes.io/version: 2.5.0
       name: kube-state-metrics
+      namespace: default
     rules:
     - apiGroups:
       - ""
@@ -28345,6 +28386,7 @@ spec:
         app.kubernetes.io/part-of: kube-prometheus
         app.kubernetes.io/version: 1.3.1
       name: node-exporter
+      namespace: default
     rules:
     - apiGroups:
       - authentication.k8s.io
@@ -28368,6 +28410,7 @@ spec:
         app.kubernetes.io/part-of: kube-prometheus
         app.kubernetes.io/version: 2.36.1
       name: prometheus-k8s
+      namespace: default
     rules:
     - apiGroups:
       - ""
@@ -28458,6 +28501,8 @@ spec:
         - list
         - watch
     kind: RoleList
+    metadata:
+      namespace: default
   - apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRole
     metadata:
@@ -28467,6 +28512,7 @@ spec:
         app.kubernetes.io/part-of: kube-prometheus
         app.kubernetes.io/version: 0.9.1
       name: prometheus-adapter
+      namespace: default
     rules:
     - apiGroups:
       - ""
@@ -28491,6 +28537,7 @@ spec:
         rbac.authorization.k8s.io/aggregate-to-edit: "true"
         rbac.authorization.k8s.io/aggregate-to-view: "true"
       name: system:aggregated-metrics-reader
+      namespace: default
     rules:
     - apiGroups:
       - metrics.k8s.io
@@ -28510,6 +28557,7 @@ spec:
         app.kubernetes.io/part-of: kube-prometheus
         app.kubernetes.io/version: 0.9.1
       name: resource-metrics-server-resources
+      namespace: default
     rules:
     - apiGroups:
       - metrics.k8s.io
@@ -28526,6 +28574,7 @@ spec:
         app.kubernetes.io/part-of: kube-prometheus
         app.kubernetes.io/version: 0.57.0
       name: prometheus-operator
+      namespace: default
     rules:
     - apiGroups:
       - monitoring.coreos.com
@@ -28885,37 +28934,16 @@ spec:
           app.kubernetes.io/name: prometheus-operator
           app.kubernetes.io/part-of: kube-prometheus
           app.kubernetes.io/version: 0.57.0
-  xaasCrd:
-    apiVersion: apiextensions.k8s.io/v1
-    kind: CustomResourceDefinition
-    metadata:
-      name: observabilities.marketplace.kratix.io
-    spec:
-      group: marketplace.kratix.io
-      names:
-        kind: observability
-        plural: observabilities
-        singular: observability
-      scope: Namespaced
-      versions:
-      - name: v1alpha1
-        schema:
-          openAPIV3Schema:
-            properties:
-              spec:
-                properties:
-                  env:
-                    default: dev
-                    pattern: ^(dev|prod)$
-                    type: string
-                  namespace:
-                    type: string
-                required:
-                - namespace
-                type: object
-            type: object
-        served: true
-        storage: true
-  xaasRequestPipeline:
-  - ghcr.io/syntasso/promise-observability/observability-request-pipeline:v0.1.0
+  workflows:
+    resource:
+      configure:
+      - apiVersion: platform.kratix.io/v1alpha1
+        kind: Pipeline
+        metadata:
+          name: instance-configure
+          namespace: default
+        spec:
+          containers:
+          - image: ghcr.io/syntasso/promise-observability/observability-configure-pipeline:v0.1.0
+            name: observability-configure-pipeline
 status: {}
