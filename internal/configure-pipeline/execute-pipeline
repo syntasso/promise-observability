@@ -2,22 +2,26 @@
 
 set -ex
 
-name="$(yq eval '.metadata.name' /kratix/input/object.yaml)"
-namespace="$(yq eval '.spec.namespace' /kratix/input/object.yaml)"
-env_type="$(yq eval '.spec.env // "dev"' /kratix/input/object.yaml)"
+if [ $KRATIX_WORKFLOW_TYPE == "promise" ]; then
+	cp /tmp/transfer/dependencies/* /kratix/output/
+else
+	name="$(yq eval '.metadata.name' /kratix/input/object.yaml)"
+	namespace="$(yq eval '.spec.namespace' /kratix/input/object.yaml)"
+	env_type="$(yq eval '.spec.env // "dev"' /kratix/input/object.yaml)"
 
-prometheus=1
-alertmanager=1
+	prometheus=1
+	alertmanager=1
 
-if [ "${env_type}" = "prod" ]; then
-	prometheus=2
-	alertmanager=3
+	if [ "${env_type}" = "prod" ]; then
+		prometheus=2
+		alertmanager=3
+	fi
+
+	sed -ibkp "s/TBDNAMESPACE/${namespace}/g" /tmp/transfer/resources/*
+	sed -ibkp "s/PROMETHEUS_REPLICAS/${prometheus}/g" /tmp/transfer/resources/*
+	sed -ibkp "s/ALERTMANAGER_REPLICAS/${alertmanager}/g" /tmp/transfer/resources/*
+	sed -ibkp "s/TBDROLENAME/${name}/g" /tmp/transfer/resources/*
+	rm /tmp/transfer/resources/*bkp
+
+	cp /tmp/transfer/resources/* /kratix/output/
 fi
-
-sed -ibkp "s/TBDNAMESPACE/${namespace}/g" /tmp/transfer/*
-sed -ibkp "s/PROMETHEUS_REPLICAS/${prometheus}/g" /tmp/transfer/*
-sed -ibkp "s/ALERTMANAGER_REPLICAS/${alertmanager}/g" /tmp/transfer/*
-sed -ibkp "s/TBDROLENAME/${name}/g" /tmp/transfer/*
-rm /tmp/transfer/*bkp
-
-cp /tmp/transfer/* /kratix/output/

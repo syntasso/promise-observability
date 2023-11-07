@@ -8,7 +8,7 @@ which is the namespace the [Grafana](https://github.com/grafana/grafana) and [Pr
 To install, run the following command while targeting your Platform cluster:
 
 ```
-kubectl create -f https://raw.githubusercontent.com/syntasso/promise-observability/main/promise.yaml
+kubectl apply -f https://raw.githubusercontent.com/syntasso/promise-observability/main/promise.yaml
 ```
 
 This will install the Prometheus Operator into the clusters. To verify it is installed,
@@ -27,7 +27,7 @@ following command while targeting your Platform cluster:
 kubectl apply -f https://raw.githubusercontent.com/syntasso/promise-observability/main/resource-request.yaml
 ```
 
-This will create an instance of Promethues and Grafana on the targeted worker cluster. This may take a few minutes. 
+This will create an instance of Promethues and Grafana on the targeted worker cluster. This may take a few minutes.
 
 ## Accessing UI
 
